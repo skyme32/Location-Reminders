@@ -3,14 +3,14 @@ package com.udacity.project4.authentication
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import com.firebase.ui.auth.AuthMethodPickerLayout
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
-import com.firebase.ui.auth.IdpResponse
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import com.firebase.ui.auth.AuthUI
-import android.view.View
-import android.widget.Button
 
 
 /**
@@ -20,7 +20,7 @@ import android.widget.Button
 class AuthenticationActivity : AppCompatActivity() {
 
     companion object {
-        const val TAG = "requestAuthenticationActivity"
+        const val TAG = "requestAuthentication"
     }
 
     private var resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
@@ -32,20 +32,28 @@ class AuthenticationActivity : AppCompatActivity() {
 
     }
 
-    public fun launchSignInFlow(view: View) {
+    /**
+     * Click R.id.button_login
+     */
+    fun launchSignInFlow(view: View) {
         val providers = arrayListOf(
                 AuthUI.IdpConfig.EmailBuilder().build(),
                 AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
-        //TODO: a bonus is to customize the sign in flow to look nice using :
         //https://github.com/firebase/FirebaseUI-Android/blob/master/auth/README.md#custom-layout
+        val customLayout = AuthMethodPickerLayout.Builder(R.layout.login_custom_layout)
+                .setGoogleButtonId(R.id.btn_gmail)
+                .setEmailButtonId(R.id.btn_mail) // ...
+                .build()
 
         // We listen to the response of this activity with the
         resultLauncher.launch(AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setAuthMethodPickerLayout(customLayout)
                 .build()
+
         )
     }
 
