@@ -2,11 +2,15 @@ package com.udacity.project4.locationreminders.reminderslist
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import com.firebase.ui.auth.AuthUI
 import com.udacity.project4.R
 import com.udacity.project4.authentication.AuthenticationActivity
 import com.udacity.project4.base.BaseFragment
+import com.udacity.project4.base.BaseViewModel
 import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentRemindersBinding
 import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
@@ -15,9 +19,16 @@ import com.udacity.project4.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReminderListFragment : BaseFragment() {
+
+    companion object {
+        const val TAG = "authReminderList"
+    }
+
     //use Koin to retrieve the ViewModel instance
     override val _viewModel: RemindersListViewModel by viewModel()
     private lateinit var binding: FragmentRemindersBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,16 +84,24 @@ class ReminderListFragment : BaseFragment() {
     }
 
     private fun authUserIdentification() {
-        val intent = Intent(context, AuthenticationActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-        requireActivity().finish()
+        _viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
+            when (authenticationState) {
+                RemindersListViewModel.AuthenticationState.AUTHENTICATED -> Log.i(TAG, "Authenticated")
+                RemindersListViewModel.AuthenticationState.UNAUTHENTICATED -> {
+                    val intent = Intent(context, AuthenticationActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+                else -> Log.e(TAG, "New $authenticationState state that doesn't require any UI change")
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {
-//                TODO: add the logout implementation
+                AuthUI.getInstance().signOut(requireContext())
             }
         }
         return super.onOptionsItemSelected(item)
