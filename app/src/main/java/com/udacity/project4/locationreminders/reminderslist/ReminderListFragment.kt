@@ -1,9 +1,11 @@
 package com.udacity.project4.locationreminders.reminderslist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.udacity.project4.R
+import com.udacity.project4.authentication.AuthenticationActivity
 import com.udacity.project4.base.BaseFragment
 import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentRemindersBinding
@@ -25,13 +27,15 @@ class ReminderListFragment : BaseFragment() {
                 inflater,
                 R.layout.fragment_reminders, container, false
             )
-        binding.viewModel = _viewModel
 
+        binding.viewModel = _viewModel
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(false)
         setTitle(getString(R.string.app_name))
-
         binding.refreshLayout.setOnRefreshListener { _viewModel.loadReminders() }
+
+        // Go to auth AuthenticationActivity
+        authUserIdentification()
 
         return binding.root
     }
@@ -66,6 +70,13 @@ class ReminderListFragment : BaseFragment() {
 
 //        setup the recycler view using the extension function
         binding.reminderssRecyclerView.setup(adapter)
+    }
+
+    private fun authUserIdentification() {
+        val intent = Intent(context, AuthenticationActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
