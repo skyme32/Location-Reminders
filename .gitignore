@@ -13,4 +13,4 @@
 .externalNativeBuild
 .cxx
 /app/src/debug/res/values/google_maps_api.xml
-/app/src/main/res/raw/map_style.json
+/app/google-services.json
