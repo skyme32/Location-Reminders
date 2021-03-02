@@ -8,6 +8,8 @@
     <string name="reminder_location">Reminder Location</string>
     <string name="save">Save</string>
     <string name="reminder_saved">Reminder Saved !</string>
+    <string name="new_reminder">New Reminder</string>
+    <string name="add_location">Add Location</string>
     <string name="logout">Logout</string>
     <string name="welcome_to_the_location_reminder_app">Welcome to the location reminder app</string>
     <string name="login">Login</string>
@@ -18,6 +20,7 @@
     <string name="terrain_map">Terrain Map</string>
     <string name="lat_long_snippet">Lat: %1$.5f, Long: %2$.5f</string>
     <string name="dropped_pin">Dropped Pin</string>
+    <string name="location_pin">My location</string>
     <string name="poi">poi</string>
     <string name="location_required_error">Location services must be enabled to use the app</string>
     <string name="permission_denied_explanation">You need to grant location permission in order to select the location.</string>

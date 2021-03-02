@@ -1,6 +1,7 @@
 package com.udacity.project4.locationreminders.savereminder
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.PointOfInterest
@@ -20,6 +21,9 @@ class SaveReminderViewModel(val app: Application, val dataSource: ReminderDataSo
     val selectedPOI = MutableLiveData<PointOfInterest>()
     val latitude = MutableLiveData<Double>()
     val longitude = MutableLiveData<Double>()
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String>
+        get() = _title
 
     /**
      * Clear the live data objects to start fresh next time the view model gets called
@@ -67,7 +71,7 @@ class SaveReminderViewModel(val app: Application, val dataSource: ReminderDataSo
     /**
      * Validate the entered data and show error to the user if there's any invalid data
      */
-    fun validateEnteredData(reminderData: ReminderDataItem): Boolean {
+    private fun validateEnteredData(reminderData: ReminderDataItem): Boolean {
         if (reminderData.title.isNullOrEmpty()) {
             showSnackBarInt.value = R.string.err_enter_title
             return false
@@ -79,4 +83,20 @@ class SaveReminderViewModel(val app: Application, val dataSource: ReminderDataSo
         }
         return true
     }
+
+
+    /**
+     * Save the location from SelectLocationFragment to SaveReminderViewModel
+     */
+    fun selectLocation(poi: PointOfInterest) {
+        reminderSelectedLocationStr.value = poi.name
+        selectedPOI.value = poi
+        latitude.value = poi.latLng.latitude
+        longitude.value = poi.latLng.longitude
+    }
+
+    /**
+     * Update
+     */
+    fun updateActionBarTitle(title: String) = _title.postValue(title)
 }
