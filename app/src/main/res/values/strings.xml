@@ -9,7 +9,7 @@
     <string name="save">Save</string>
     <string name="reminder_saved">Reminder Saved !</string>
     <string name="new_reminder">New Reminder</string>
-    <string name="add_location">Add Location</string>
+    <string name="add_location">Select Location</string>
     <string name="logout">Logout</string>
     <string name="welcome_to_the_location_reminder_app">Welcome to the location reminder app</string>
     <string name="login">Login</string>

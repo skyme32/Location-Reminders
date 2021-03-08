@@ -1,6 +1,7 @@
 package com.udacity.project4.locationreminders.reminderslist
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,18 @@ class RemindersListViewModel(
 ) : BaseViewModel(app) {
     // list that holds the reminder data to be displayed on the UI
     val remindersList = MutableLiveData<List<ReminderDataItem>>()
+
+    private val _navigateToDetailReminder = MutableLiveData<ReminderDataItem>()
+    val navigateToDetailReminder: LiveData<ReminderDataItem>
+        get() = _navigateToDetailReminder
+
+    fun onReminderClicked(reminder: ReminderDataItem) {
+        _navigateToDetailReminder.value = reminder
+    }
+
+    fun onReminderNavigated() {
+        _navigateToDetailReminder.value = null
+    }
 
     /**
      * Get all the reminders from the DataSource and add them to the remindersList to be shown on the UI,

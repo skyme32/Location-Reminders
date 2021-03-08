@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.udacity.project4.R
 import com.udacity.project4.authentication.AuthenticationActivity
@@ -55,9 +56,24 @@ class ReminderListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         setupRecyclerView()
+
         binding.addReminderFAB.setOnClickListener {
             navigateToAddReminder()
         }
+
+        _viewModel.showLoading.observe(viewLifecycleOwner, Observer { isList ->
+            if (isList) {
+                binding.refreshLayout.isRefreshing = false
+            }
+        })
+
+
+        _viewModel.navigateToDetailReminder.observe(viewLifecycleOwner, Observer {  reminder ->
+            if (reminder != null) {
+                this.findNavController().navigate(ReminderListFragmentDirections.actionReminderListFragmentToReminderDescriptionActivity(reminder))
+            }
+        })
+
     }
 
     override fun onResume() {
@@ -77,6 +93,7 @@ class ReminderListFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         val adapter = RemindersListAdapter {
+            _viewModel.onReminderClicked(it)
         }
 
 //        setup the recycler view using the extension function
