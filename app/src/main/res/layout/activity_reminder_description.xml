@@ -8,26 +8,108 @@
         <variable
             name="reminderDataItem"
             type="com.udacity.project4.locationreminders.reminderslist.ReminderDataItem" />
+
+        <variable
+            name="viewModelDescription"
+            type="com.udacity.project4.locationreminders.ReminderDescriptionViewModel" />
     </data>
 
-    <LinearLayout
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        tools:context=".locationreminders.ReminderDescriptionActivity">
-        <!--TODO: add the design of the reminder details-->
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Reminder Details"
-            android:textSize="@dimen/text_size_large"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".locationreminders.ReminderDescriptionActivity">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/txt_title_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="@string/reminder_details"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/title_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="10dp"
+                android:text="@{reminderDataItem.title}"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                tools:text="@string/err_enter_title" />
+
+            <TextView
+                android:id="@+id/desc_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/padding_medium"
+                android:text="@{reminderDataItem.description}"
+                tools:text="@string/reminder_desc" />
+
+            <TextView
+                android:id="@+id/selectLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="false"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:text="@{reminderDataItem.location}"
+                android:textColor="@color/black"
+                app:drawableLeftCompat="@drawable/ic_location"
+                app:drawableStartCompat="@drawable/ic_location"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reminderDescription"
+                tools:text="@string/reminder_location" />
+
+
+            <!--app:goneIfNotNull="@{viewModelDescription.isGeofence()}"-->
+            <Button
+                android:id="@+id/button2"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:text="@string/delete"
+                android:visibility="gone"
+                android:fadeVisible="@{viewModelDescription.isGeofence()}"
+                android:textColor="@color/fui_bgEmail" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
 </layout>

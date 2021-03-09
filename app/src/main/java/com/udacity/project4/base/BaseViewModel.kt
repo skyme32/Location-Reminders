@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.udacity.project4.utils.SingleLiveEvent
+import org.koin.core.KoinComponent
 
 /**
  * Base class for View Models to declare the common LiveData objects in one place
