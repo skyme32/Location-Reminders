@@ -104,8 +104,6 @@
                 android:layout_marginRight="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:text="@string/delete"
-                android:visibility="gone"
-                android:fadeVisible="@{viewModelDescription.isGeofence()}"
                 android:textColor="@color/fui_bgEmail" />
         </LinearLayout>
 

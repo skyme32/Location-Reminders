@@ -30,7 +30,7 @@ class AuthenticationActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             finish()
             val intent = Intent(this, RemindersActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             Log.i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName}!")
         } else {

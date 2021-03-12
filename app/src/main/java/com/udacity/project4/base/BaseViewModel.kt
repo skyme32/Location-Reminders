@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.udacity.project4.utils.SingleLiveEvent
-import org.koin.core.KoinComponent
 
 /**
  * Base class for View Models to declare the common LiveData objects in one place
@@ -16,6 +15,7 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
     val showSnackBar: SingleLiveEvent<String> = SingleLiveEvent()
     val showSnackBarInt: SingleLiveEvent<Int> = SingleLiveEvent()
     val showSnackBarLoctInt: SingleLiveEvent<Int> = SingleLiveEvent()
+    val showSnackBarSettInt: SingleLiveEvent<Int> = SingleLiveEvent()
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
     val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val showNoData: MutableLiveData<Boolean> = MutableLiveData()

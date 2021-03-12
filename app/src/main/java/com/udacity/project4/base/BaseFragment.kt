@@ -42,6 +42,17 @@ abstract class BaseFragment : Fragment() {
                 }
                 .show()
         })
+        _viewModel.showSnackBarSettInt.observe(this, Observer {
+            Snackbar.make(this.requireView(), getString(it), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.settings)) {
+                        startActivity(Intent().apply {
+                            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        })
+                    }
+                    .show()
+        })
         _viewModel.navigationCommand.observe(this, Observer { command ->
             when (command) {
                 is NavigationCommand.To -> findNavController().navigate(command.directions)
