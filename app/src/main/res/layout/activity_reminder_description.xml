@@ -37,24 +37,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:text="@string/reminder_details"
+                android:text="@{reminderDataItem.title}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/title_reminder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="10dp"
-                android:text="@{reminderDataItem.title}"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold"
-                tools:text="@string/err_enter_title" />
 
             <TextView
                 android:id="@+id/desc_reminder"
@@ -65,6 +51,7 @@
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:layout_marginRight="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/padding_medium"
+                android:minHeight="100dp"
                 android:text="@{reminderDataItem.description}"
                 tools:text="@string/reminder_desc" />
 
