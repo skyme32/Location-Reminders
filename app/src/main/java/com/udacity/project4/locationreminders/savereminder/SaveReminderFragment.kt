@@ -207,5 +207,5 @@ private const val REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE = 33
 private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
 private const val TAG = "SaveReminder"
 private const val LOCATION_PERMISSION_INDEX = 0
-private const val GEOFENCE_RADIUS = 150F
+private const val GEOFENCE_RADIUS = 90F
 internal const val ACTION_GEOFENCE_EVENT = "locationreminders.action.ACTION_GEOFENCE_EVENT"

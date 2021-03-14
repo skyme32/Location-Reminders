@@ -23,7 +23,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingResource
-import java.util.UUID
+import java.util.*
 
 /**
  * An espresso idling resource implementation that reports idle status for all data binding
@@ -104,8 +104,10 @@ fun DataBindingIdlingResource.monitorActivity(
 /**
  * Sets the fragment from a [FragmentScenario] to be used from [DataBindingIdlingResource].
  */
-fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<out Fragment>) {
-    fragmentScenario.onFragment {
-        this.activity = it.requireActivity()
-    }
+fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<Fragment>) {
+    fragmentScenario.onFragment(
+        FragmentScenario.FragmentAction { fragment ->
+            activity = fragment.requireActivity()
+        }
+    )
 }
