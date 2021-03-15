@@ -2,25 +2,19 @@ package com.udacity.project4.locationreminders.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.SmallTest;
-import com.google.android.gms.tasks.Task
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
-import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
-
-import kotlinx.coroutines.ExperimentalCoroutinesApi;
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -74,6 +68,54 @@ class RemindersDaoTest {
         assertThat(loaded.location, `is`(reminder.location))
         assertThat(loaded.latitude, `is`(reminder.latitude))
         assertThat(loaded.longitude, `is`(reminder.longitude))
+    }
+
+
+    // Delete testing implementation to the RemindersDao.kt
+    @Test
+    fun deletedAllReminder() = runBlockingTest {
+        //Create a riminder
+        val reminder = ReminderDTO(
+            title = "title",
+            description = "description",
+            location = "location",
+            latitude = 2.2,
+            longitude = 12.12
+        )
+
+        // GIVEN - insert a task
+        database.reminderDao().saveReminder(reminder)
+        database.reminderDao().deleteAllReminders()
+
+
+        // WHEN - Get the task by id from the database
+        val loaded = database.reminderDao().getReminders()
+
+        // THEN - The loaded data contains the expected values
+        assert(loaded.isEmpty())
+
+    }
+
+    @Test
+    fun deletedByIdReminder() = runBlockingTest {
+        //Create a riminder
+        val reminder = ReminderDTO(
+            title = "title",
+            description = "description",
+            location = "location",
+            latitude = 2.2,
+            longitude = 12.12
+        )
+
+        // GIVEN - insert and delete Reminder
+        database.reminderDao().saveReminder(reminder)
+        database.reminderDao().deleteReminder(reminder)
+
+        // WHEN - Get the Reminder by id from the database
+        val loaded = database.reminderDao().getReminderById(reminder.id)
+
+        // THEN - The loaded data contains the expected values
+        assertThat(loaded, nullValue())
     }
 
 }
