@@ -92,7 +92,7 @@ class RemindersDaoTest {
         val loaded = database.reminderDao().getReminders()
 
         // THEN - The loaded data contains the expected values
-        assert(loaded.isEmpty())
+        assertThat(loaded, `is`(emptyList()))
 
     }
 
