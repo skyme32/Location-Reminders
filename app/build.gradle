@@ -120,8 +120,8 @@ dependencies {
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
-    implementation 'com.firebaseui:firebase-ui-auth:7.1.1'
-    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "com.firebaseui:firebase-ui-auth:$firebaseui"
+    implementation "androidx.multidex:multidex:$multiDex"
 
     //Maps & Geofencing
     implementation "com.google.android.gms:play-services-location:$playServicesVersion"
