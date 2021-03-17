@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.authentication.AuthenticationActivity
 import com.udacity.project4.base.BaseFragment
@@ -27,6 +28,7 @@ class ReminderListFragment : BaseFragment() {
     //use Koin to retrieve the ViewModel instance
     override val _viewModel: RemindersListViewModel by viewModel()
     private lateinit var binding: FragmentRemindersBinding
+    private val auth = FirebaseAuth.getInstance()
 
 
     override fun onCreateView(
@@ -100,24 +102,22 @@ class ReminderListFragment : BaseFragment() {
     }
 
     private fun authUserIdentification() {
-        _viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
-            when (authenticationState) {
-                RemindersListViewModel.AuthenticationState.AUTHENTICATED -> Log.i(TAG, "Authenticated")
-                RemindersListViewModel.AuthenticationState.UNAUTHENTICATED -> {
-                    val intent = Intent(context, AuthenticationActivity::class.java)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    requireActivity().finish()
-                }
-                else -> Log.e(TAG, "New $authenticationState state that doesn't require any UI change")
-            }
-        })
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            Log.i(TAG, "Authenticated")
+        } else {
+            val intent = Intent(context, AuthenticationActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {
-                AuthUI.getInstance().signOut(requireContext())
+                auth.signOut()
+                authUserIdentification()
             }
         }
         return super.onOptionsItemSelected(item)

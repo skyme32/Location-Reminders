@@ -69,6 +69,7 @@ class RemindersListViewModel(
         showNoData.value = remindersList.value == null || remindersList.value!!.isEmpty()
     }
 
+    /*
     enum class AuthenticationState {
         AUTHENTICATED, UNAUTHENTICATED
     }
@@ -80,4 +81,5 @@ class RemindersListViewModel(
             AuthenticationState.UNAUTHENTICATED
         }
     }
+     */
 }
