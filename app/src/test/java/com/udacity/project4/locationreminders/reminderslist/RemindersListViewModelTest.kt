@@ -74,4 +74,15 @@ class RemindersListViewModelTest {
         assertThat(reminderViewModel.showLoading.getOrAwaitValue(), `is`(false))
     }
 
+    @Test
+    @Config(sdk = [Build.VERSION_CODES.O_MR1])
+    fun showNodata_listEmpty() = mainCoroutineRule.runBlockingTest {
+        reminderRepository.deleteAllReminders()
+        reminderViewModel.loadReminders()
+
+        assertThat(reminderViewModel.showLoading.getOrAwaitValue(), `is`(false))
+        assertThat(reminderViewModel.showNoData.value, `is`(true))
+    }
+
+
 }
