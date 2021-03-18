@@ -58,21 +58,20 @@ class RemindersListViewModelTest {
     @Test
     @Config(sdk = [Build.VERSION_CODES.O_MR1])
     fun showLoading_existData() = mainCoroutineRule.runBlockingTest {
-        // With a repository that has an active task
+        // Pause dispatcher so you can verify initial values.
         mainCoroutineRule.pauseDispatcher()
+
+        // Load the task in the view model.
         reminderViewModel.loadReminders()
+
+        // Then assert that the progress indicator is shown.
         assertThat(reminderViewModel.showLoading.getOrAwaitValue(), `is`(true))
-    }
 
-    @Test
-    @Config(sdk = [Build.VERSION_CODES.O_MR1])
-    fun showNodata_listEmpty() = mainCoroutineRule.runBlockingTest {
-        reminderRepository.deleteAllReminders()
-        reminderViewModel.loadReminders()
+        // Execute pending coroutines actions.
+        mainCoroutineRule.resumeDispatcher()
 
+        // Then assert that the progress indicator is hidden.
         assertThat(reminderViewModel.showLoading.getOrAwaitValue(), `is`(false))
-        assertThat(reminderViewModel.showNoData.value, `is`(true))
     }
-
 
 }
