@@ -5,7 +5,10 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -140,24 +143,24 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun setMapLongClick(map: GoogleMap) {
         map.setOnMapLongClickListener { latLng ->
-            createMArker(latLng, getString(R.string.dropped_pin), getString(R.string.lat_long_snippet))
+            createMArker(latLng, getString(R.string.dropped_pin))
         }
     }
 
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
-            createMArker(poi.latLng, poi.name, poi.placeId)
+            createMArker(poi.latLng, poi.name)
         }
     }
 
 
-    private fun createMArker(latLng: LatLng, title: String, snippetTitle: String) {
+    private fun createMArker(latLng: LatLng, title: String) {
         map.clear()
 
         // A Snippet is Additional text that's displayed below the title.
         val snippet = String.format(
             Locale.getDefault(),
-            snippetTitle,
+            geoCodeLocation(latLng),
             latLng.latitude, latLng.longitude
         )
 
@@ -241,7 +244,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                                 coordinate, 17f
                             )
                             map.animateCamera(location)
-                            createMArker(coordinate, getString(R.string.location_pin), getString(R.string.lat_long_snippet))
+                            createMArker(coordinate, getString(R.string.location_pin))
                         } else {
                             _viewModel.showSnackBarLoctInt.postValue(R.string.location_required_error)
                             Log.d(TAG, "Current location is null. Using defaults.")
@@ -251,6 +254,16 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         } catch (e: SecurityException) {
             Log.e(TAG, e.message!!)
         }
+    }
+
+
+    private fun geoCodeLocation(latLng: LatLng): String {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        return geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            .map { address ->
+                "${address.thoroughfare}, ${address.subThoroughfare}, ${address.postalCode}"
+            }
+            .first()
     }
 
 

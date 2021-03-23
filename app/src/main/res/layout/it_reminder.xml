@@ -14,7 +14,7 @@
         android:id="@+id/reminderCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_medium"
+        android:layout_margin="@dimen/padding_cardview"
         android:fadeVisible="@{true}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,23 +24,31 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_small"
                 android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:text="@{item.title}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal"
+                app:layout_constraintEnd_toStartOf="@+id/location_item"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Title" />
 
             <TextView
                 android:id="@+id/description"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{item.description}"
                 android:textSize="@dimen/text_size_small"
+                app:layout_constraintEnd_toStartOf="@+id/location_item"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/title"
                 tools:text="Description" />
