@@ -6,11 +6,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.google.android.gms.location.LocationServices
 import com.udacity.project4.R
 import com.udacity.project4.databinding.ActivityReminderDescriptionBinding
@@ -65,6 +67,11 @@ class ReminderDescriptionActivity : AppCompatActivity() {
             removeGeofences()
         }
 
+        // Handle loading of URLs
+        _viewModel.urlIntent.observe(this, Observer {
+            loadURLIntents(it)
+        })
+
         supportActionBar?.title = getString(R.string.reminder_details)
     }
 
@@ -101,6 +108,14 @@ class ReminderDescriptionActivity : AppCompatActivity() {
         val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
         intent.action = ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    // Create method to load URL intents
+    private fun loadURLIntents(strUri: String?) {
+        if (!strUri.isNullOrBlank()) {
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse(strUri))
+            startActivity(i)
+        }
     }
 
     /**

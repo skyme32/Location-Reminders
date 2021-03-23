@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="center"
+                android:maxLines="1"
                 android:text="@{reminderDataItem.title}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_large"
@@ -51,7 +52,7 @@
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:layout_marginRight="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/padding_medium"
-                android:minHeight="100dp"
+                android:minHeight="50dp"
                 android:text="@{reminderDataItem.description}"
                 tools:text="@string/reminder_desc" />
 
@@ -69,8 +70,8 @@
                 android:focusable="true"
                 android:gravity="center_vertical"
                 android:text="@{reminderDataItem.location}"
+                android:onClick="@{() -> viewModelDescription.loadingURLs(reminderDataItem)}"
                 android:textColor="@color/black"
-                app:drawableLeftCompat="@drawable/ic_location"
                 app:drawableStartCompat="@drawable/ic_location"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
